@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<meta name="nk-v" content="20261005011633" />
+<title>猫ハウスつり（β版）</title>
+<meta name="description" content="猫ハウスで猫を釣るブラウザゲーム（β版）。エサを選んでキャスト、ウキが沈んだら合わせて、テンションに気をつけながらリールを巻こう。" />
+<meta name="theme-color" content="#3b2414" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="stylesheet" href="css/style.css?v=20261005011633" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== TITLE ===== -->
+  <section id="scr-title" class="screen active">
+    <div class="t-top">
+      <span class="coin-pill"><img src="assets/items/coins.png" alt="コイン"><b id="title-coins">0</b></span>
+      <button type="button" id="btn-mute" class="mini">🔊 音ON</button>
+    </div>
+    <h1 class="logo">猫ハウス<span>つり</span><em class="beta-badge">BETA</em></h1>
+    <p class="beta-line">⚠ <b>β版（ベータ版）</b>です。仕様・バランスは変わることがあります。</p>
+    <div class="hero">
+      <img class="hero-bg" src="assets/cathouse.jpg" alt="猫ハウス">
+      <img class="hero-cat c1" src="assets/cats/chatora_walk.png" alt="">
+      <img class="hero-cat c2" src="assets/cats/siamese_sit.png" alt="">
+      <img class="hero-cat c3" src="assets/cats/kuro_walk.png" alt="">
+      <img class="hero-bucket" src="assets/items/bucket.png" alt="">
+    </div>
+    <div class="play-row">
+      <div class="stage-sel">
+        <button type="button" id="stage-prev" class="mini" aria-label="前のステージ">◀</button>
+        <span id="title-stage">ステージ 1</span>
+        <button type="button" id="stage-next" class="mini" aria-label="次のステージ">▶</button>
+      </div>
+      <button type="button" id="btn-play" class="btn big loading" disabled>🎣 あそぶ</button>
+    </div>
+    <div class="btn-row">
+      <button type="button" id="btn-dex" class="btn">📖 図鑑・メダル<small><span id="title-dex">0/13</span>種・<span id="title-medal">0/8</span>個</small></button>
+      <button type="button" id="btn-shop" class="btn">🛒 おみせ<small>エサ・竿</small></button>
+    </div>
+    <div class="btn-row">
+      <button type="button" id="btn-howto" class="btn sub">❓ あそびかた</button>
+      <a class="btn btn-transfer" id="btn-transfer" href="/transfer/?from=/nekotsuri/game/">🔄 引き継ぎ<small>機種変更・データ移行</small></a>
+    </div>
+    <a class="save-notice" href="/transfer/?from=/nekotsuri/game/">
+      <b>⚠ 記録が消えることがあります：</b>
+      <span>・iPhoneのSafariで7日くらい遊ばなかったとき</span>
+      <span>・ブラウザの履歴やサイトのデータを消したとき</span>
+      <span>・プライベートモードで遊んだとき</span>
+      <span>※記録はこのブラウザだけに保存されます（別のブラウザ・端末とは別）。</span>
+      <span class="sn-p">スマホを買い替える前に「引き継ぎ」でコードを作って保存してください（全ゲーム共通）。<u>引き継ぎページへ ›</u></span>
+    </a>
+    <p class="meta"><span id="meta-version">ver —</span><span class="sep">｜</span><span id="meta-visits">アクセス —</span><span class="sep">｜</span><span id="meta-battles" hidden>bc —</span></p>
+    <p class="foot"><a href="../">このゲームについて（説明ページ）</a>・<a href="/">ゲーム一覧</a></p>
+  </section>
+
+  <!-- ===== PLAY ===== -->
+  <section id="scr-play" class="screen">
+    <header class="hud">
+      <span class="h-stage" id="hud-stage">ST 1</span>
+      <span title="のこりキャスト">🎣<b id="hud-casts">10</b></span>
+      <span title="釣った数/目標"><img src="assets/items/bucket.png" alt="バケツ"><b id="hud-caught">0/3</b></span>
+      <span title="コイン">🪙<b id="hud-coins">0</b></span>
+      <button type="button" id="btn-quit" class="mini" aria-label="やめる">✕</button>
+    </header>
+    <div id="stage-wrap" class="stage-wrap">
+      <canvas id="cv"></canvas>
+      <div id="toast" class="toast"></div>
+    </div>
+    <div class="controls">
+      <div class="spot-row">
+        <button type="button" id="spot-prev" class="mini arrow" aria-label="前の場所">◀</button>
+        <div class="spot-txt"><div id="spot-name">📍</div><div id="spot-sub" class="spot-sub"></div></div>
+        <button type="button" id="spot-next" class="mini arrow" aria-label="次の場所">▶</button>
+      </div>
+      <div id="baits" class="baits"></div>
+      <button type="button" id="main-btn" class="main-btn">🎣 キャスト</button>
+      <div id="hint" class="hint"></div>
+    </div>
+  </section>
+
+  <!-- ===== DEX ===== -->
+  <section id="scr-dex" class="screen scroll">
+    <div class="sub-head"><button type="button" class="mini" data-back>◀ もどる</button><h2>図鑑・メダル</h2></div>
+    <div class="tabs"><button type="button" class="tab on" data-tab="dex">📖 猫図鑑</button><button type="button" class="tab" data-tab="medal">🏅 メダル</button></div>
+    <p id="dex-count" class="muted c"></p>
+    <div id="dex-list" class="dex-list"></div>
+    <div id="medal-list" class="medal-list" hidden></div>
+    <p id="dex-stats" class="muted c small"></p>
+  </section>
+
+  <!-- ===== SHOP ===== -->
+  <section id="scr-shop" class="screen scroll">
+    <div class="sub-head"><button type="button" class="mini" data-back>◀ もどる</button><h2>おみせ</h2></div>
+    <p class="c coin-big">🪙 <b id="shop-coins">0</b> コイン</p>
+    <h3>エサ（好きな猫が集まる）</h3>
+    <div id="shop-baits" class="shop-list"></div>
+    <h3>竿（糸が切れにくく・速く巻ける）</h3>
+    <p id="shop-rodnow" class="muted c small"></p>
+    <div id="shop-rods" class="shop-list"></div>
+  </section>
+
+  <!-- overlays -->
+  <div id="ov-catch" class="overlay"><div class="card catch-card">
+    <p class="cc-h">つれた！<span id="catch-new" class="new" hidden>NEW!</span></p>
+    <div class="cc-img"><img id="catch-img" src="" alt=""></div>
+    <p class="cc-name" id="catch-name"></p>
+    <p class="cc-stars" id="catch-stars"></p>
+    <p class="cc-kg" id="catch-kg"></p>
+    <p class="cc-perfect" id="catch-perfect" hidden>パーフェクト合わせ ボーナス ×1.2</p>
+    <p class="cc-coin">🪙 <b id="catch-coin">+0</b></p>
+    <p class="cc-desc" id="catch-desc"></p>
+    <p class="cc-bucket"><img src="assets/items/bucket.png" alt="">バケツに入れた！</p>
+    <button type="button" id="catch-ok" class="btn big">つぎへ</button>
+  </div></div>
+
+  <div id="ov-result" class="overlay"><div class="card res-card">
+    <p id="res-title" class="ok">ステージクリア！</p>
+    <p id="res-sub" class="muted"></p>
+    <div class="res-bar"><div id="res-bar"></div></div>
+    <p class="res-coin"><img src="assets/items/coins.png" alt=""><b id="res-coin">0</b></p>
+    <p id="res-bonus" class="muted small"></p>
+    <div id="res-cats" class="res-cats"></div>
+    <p id="res-unlock" class="res-unlock"></p>
+    <button type="button" id="res-next" class="btn big">次へ</button>
+    <div class="btn-row"><button type="button" id="res-retry" class="btn sub">もう一度</button><button type="button" id="res-title-btn" class="btn sub">タイトルへ</button></div>
+  </div></div>
+
+  <div id="ov-quit" class="overlay"><div class="card">
+    <p class="c"><b>タイトルにもどりますか？</b></p>
+    <p class="muted small c">釣った猫とコインは保存ずみです（ステージの進み具合だけ終わります）。</p>
+    <div class="btn-row"><button type="button" id="quit-no" class="btn sub">つづける</button><button type="button" id="quit-yes" class="btn">もどる</button></div>
+  </div></div>
+
+  <div id="ov-howto" class="overlay"><div class="card howto">
+    <h2>あそびかた</h2>
+    <ol>
+      <li><b>場所とエサを選ぶ</b>：◀▶で釣る場所、下のボタンでエサ。エサごとに好きな猫がちがいます（煮干しは無料）。</li>
+      <li><b>キャスト</b>：ゲージが真ん中（グレート）で止めると猫が早く来て、レアな猫も来やすい。</li>
+      <li><b>待つ</b>：猫がエサに近づいてきます。ウキが<b>ピクッ</b>とするのはまだ。押すと逃げます。</li>
+      <li><b>合わせる</b>：ウキが沈んで「！」が出たらすぐ押す。早いほどパーフェクト（コイン1.2倍）。</li>
+      <li><b>リールを巻く</b>：長押しで巻く。テンションが赤（右端）まで行くと<b>糸が切れる</b>、青（左端）のままだと<b>逃げる</b>。猫が「グイッ！」とあばれたら離そう。</li>
+      <li>目標の数を釣るとステージクリア。新しい場所とレアな猫が解放されます。</li>
+    </ol>
+    <p class="muted small">操作：タップ／クリック、またはキーボード（スペース・Enter＝キャスト/合わせ/長押しで巻く、←→＝場所、↑↓＝エサ、Esc＝やめる）</p>
+    <button type="button" id="howto-close" class="btn big">OK</button>
+  </div></div>
+
+  <div id="medal-pop" class="medal-pop"></div>
+</div>
+<script src="js/data.js?v=20261005011633"></script>
+<script src="js/save.js?v=20261005011633"></script>
+<script src="js/meta.js?v=20261005011633"></script>
+<script src="js/sound.js?v=20261005011633"></script>
+<script src="js/game.js?v=20261005011633"></script>
+</body>
+</html>

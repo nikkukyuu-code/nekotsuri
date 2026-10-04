@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>猫ハウスつり（β版）— 説明ページ</title>
+<meta name="description" content="猫ハウスで猫を釣るブラウザゲーム「猫ハウスつり」（β版）の説明ページ。遊び方とフォルダ構成。" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; color: #fff6e6; line-height: 1.7;
+    background: #24150b radial-gradient(900px 600px at 50% 0%, #4a2c16, #1d1108 70%); }
+  main { max-width: 680px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { margin: 6px 0 10px; font-size: 1.9rem; color: #ffe7b0; text-align: center; text-shadow: 0 3px 0 #8a4b16; }
+  .badge { display: inline-block; margin-left: 6px; padding: 2px 10px; font-size: .85rem; vertical-align: middle; color: #fff; background: linear-gradient(135deg, #ff2d55, #ff8a00); border: 2px solid #fff; border-radius: 999px; transform: rotate(-8deg); }
+  .beta { margin: 0 0 16px; padding: 12px 14px; border-radius: 12px; border: 2px solid #ff8a00; background: rgba(255,90,40,.18); font-weight: 700; text-align: center; }
+  .beta strong { display: block; color: #ffd24a; font-size: 1.1rem; }
+  .hero { width: 100%; border-radius: 14px; border: 3px solid #f2a93b; display: block; }
+  .play { display: block; margin: 16px 0; padding: 16px; border-radius: 16px; text-align: center; font-size: 1.3rem; font-weight: 900; text-decoration: none; color: #3a1f0c; background: linear-gradient(180deg, #ffe39a, #f2a93b); box-shadow: 0 5px 0 #a5621d; }
+  h2 { margin: 26px 0 8px; font-size: 1.1rem; color: #ffd78a; border-bottom: 1px solid rgba(255,215,138,.3); padding-bottom: 4px; }
+  ol, ul { padding-left: 1.3em; } li { margin: 3px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  td, th { border: 1px solid rgba(255,255,255,.15); padding: 6px 8px; vertical-align: top; text-align: left; }
+  th { background: rgba(255,255,255,.06); }
+  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .85em; color: #9fe3ff; word-break: break-all; }
+  pre { overflow-x: auto; padding: 10px 12px; border-radius: 10px; background: rgba(0,0,0,.35); font-size: .82rem; line-height: 1.5; }
+  .note { padding: 10px 12px; border-radius: 12px; border: 2px solid #ffb020; background: rgba(60,30,0,.55); font-size: .88rem; }
+  .note a, footer a { color: #9fe3ff; }
+  footer { margin-top: 30px; text-align: center; font-size: .82rem; color: #d9c3a5; }
+</style>
+</head>
+<body>
+<main>
+  <h1>猫ハウスつり<span class="badge">β版</span></h1>
+  <p class="beta" role="note"><strong>⚠ β版（ベータ版）公開中</strong>このゲームは現在ベータ版です。仕様やバランスは予告なく変わることがあり、不具合が起きることもあります。</p>
+  <img class="hero" src="game/assets/cathouse.jpg?v=20261005011633" alt="猫ハウスのイラスト">
+  <a class="play" href="game/">🎣 ゲームを遊ぶ</a>
+
+  <h2>どんなゲーム？</h2>
+  <p>猫がたくさん住んでいる「猫ハウス」で、人が釣りざおを使って猫を<b>釣る</b>ゲームです。スマホでもパソコンでも遊べます。</p>
+  <ol>
+    <li><b>場所とエサを選ぶ</b>：1F のクッション・トンネル・キャットタワー、2F のロフト・つり橋、屋根裏…。エサ（煮干し・ねずみのおもちゃ・はねじゃらし・エビ・アジ・焼き魚）ごとに好きな猫がちがいます。</li>
+    <li><b>キャスト</b>：ゲージを真ん中で止めると、猫が早く来てレアな猫も来やすくなります。</li>
+    <li><b>アタリを待つ</b>：猫がエサに近づいてきます。ウキがピクッとするだけのときは、まだ合わせない。</li>
+    <li><b>合わせる</b>：ウキが沈んで「！」が出たら、すぐタップ（早いほどパーフェクト）。</li>
+    <li><b>リールを巻く</b>：長押しで巻きます。テンションが赤まで上がると<b>糸が切れ</b>、ゆるめすぎると<b>逃げられます</b>。猫が「グイッ！」とあばれたら離しましょう。</li>
+    <li>釣った猫はバケツへ。コインがもらえ、<b>図鑑</b>に登録されます。目標の数を釣るとステージクリアで新しい場所が解放されます。</li>
+  </ol>
+  <p>猫は全13種類（★1〜★5）。コインで<b>エサ</b>や<b>じょうぶな竿</b>を買えます。「ベイトキャッチャー」などのメダルもあります。</p>
+  <p>操作：タップ／クリック、またはキーボード（スペース・Enter＝キャスト／合わせ／長押しで巻く、←→＝場所、↑↓＝エサ）。</p>
+
+  <h2>記録の保存と引き継ぎ</h2>
+  <div class="note">
+    <p style="margin:0 0 4px">記録（コイン・図鑑・メダル・エサ・竿・ステージ）は<b>このブラウザ</b>の中に保存されます。次のときは記録が消えることがあります：</p>
+    <ul style="margin:0 0 6px">
+      <li>iPhoneのSafariで7日くらい遊ばなかったとき</li>
+      <li>ブラウザの履歴やサイトのデータを消したとき</li>
+      <li>プライベートモードで遊んだとき</li>
+    </ul>
+    <p style="margin:0">別のブラウザ・別の端末とは記録が別です。機種変更の前に<a href="/transfer/?from=/nekotsuri/game/">引き継ぎページ（全ゲーム共通コード）</a>でコードを作って保存してください。アップデートで記録が消えることはありません。</p>
+  </div>
+
+  <h2>フォルダ構成（ファイルの置き場所）</h2>
+<pre>nekotsuri/
+├─ index.html          … このページ（説明ページ）
+├─ README.md
+├─ tools/
+│   ├─ cut_cats.py     … 猫のスプライトシートから猫を切り抜く
+│   ├─ cut_items.py    … 竿・エサ・バケツ・メダルを切り抜く
+│   └─ stamp.py        … 公開日時（バージョン）を書き込む
+└─ game/               … ゲーム本体（https://nikkukyuu-code.github.io/nekotsuri/game/）
+    ├─ index.html      … タイトル・ゲーム・図鑑・おみせ画面
+    ├─ css/style.css   … 見た目（スマホ幅のレイアウト）
+    ├─ js/data.js      … 猫・エサ・場所・竿・メダルのデータと公開日時
+    ├─ js/save.js      … 記録の保存（減らない仕組み）
+    ├─ js/meta.js      … バージョン表示・アクセス数・bc（プレイ回数）
+    ├─ js/sound.js     … 効果音
+    ├─ js/game.js      … ゲームの動き（キャスト・アタリ・リール）
+    └─ assets/
+        ├─ cathouse.jpg     … 背景の猫ハウス
+        ├─ cats/*.png       … 猫（13種類 × 歩き・座り・ジャンプ）
+        └─ items/*.png      … 竿・エサ・バケツ・コイン・メダル</pre>
+  <table>
+    <tr><th>保存データ（localStorage）</th><th>中身</th></tr>
+    <tr><td><code>nekotsuri-save-v1</code></td><td>コイン（獲得合計・使った合計）、図鑑、メダル、エサ、竿、到達ステージ</td></tr>
+    <tr><td><code>nekotsuri-save-v1-bak</code></td><td>上のバックアップ（毎回いっしょに保存）</td></tr>
+    <tr><td><code>nekotsuri-pref-v1</code></td><td>設定（音のON/OFF）</td></tr>
+  </table>
+
+  <footer>
+    <p>バージョン（公開日時）：<span class="build">2026-10-05 01:16:33</span></p>
+    <p><a href="game/">ゲームを遊ぶ</a>・<a href="/">ゲーム一覧（トップページ）</a>・<a href="/transfer/">引き継ぎ</a></p>
+  </footer>
+</main>
+</body>
+</html>
