@@ -5,7 +5,7 @@
 <!--nk-autoupdate--><script>
 /* 自動更新: 新しい版が公開されたら、安全なとき（タイトル画面など・試合中でない）だけ自動で読み込み直す。記録(localStorage)には触れない。 */
 (function () {
-  var PAGE_LABEL = '2026-10-05 01:29:40';
+  var PAGE_LABEL = '2026-10-05 02:03:18';
   var URL = '/nekotsuri/version.json', KEY = 'nkReloadFor:nekotsuri', EVERY = 60;
   function safe() { try { return !!(!document.getElementById('scr-play').classList.contains('active') && !document.querySelector('.overlay.show')); } catch (e) { return false; } }
   var busy = false;
@@ -28,12 +28,12 @@
 })();
 </script><!--/nk-autoupdate-->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-<meta name="nk-v" content="20261005012940" />
+<meta name="nk-v" content="20261005020318" />
 <title>猫ハウスつり（β版）</title>
 <meta name="description" content="猫ハウスで猫を釣るブラウザゲーム（β版）。エサを選んでキャスト、ウキが沈んだら合わせて、テンションに気をつけながらリールを巻こう。" />
 <meta name="theme-color" content="#3b2414" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="stylesheet" href="css/style.css?v=20261005012940" />
+<link rel="stylesheet" href="css/style.css?v=20261005020318" />
 </head>
 <body>
 <div id="app">
@@ -95,11 +95,7 @@
       <div id="toast" class="toast"></div>
     </div>
     <div class="controls">
-      <div class="spot-row">
-        <button type="button" id="spot-prev" class="mini arrow" aria-label="前の場所">◀</button>
-        <div class="spot-txt"><div id="spot-name">📍</div><div id="spot-sub" class="spot-sub"></div></div>
-        <button type="button" id="spot-next" class="mini arrow" aria-label="次の場所">▶</button>
-      </div>
+      <div class="aim-row"><div id="aim-name">🎯</div><div id="aim-sub" class="aim-sub"></div></div>
       <div id="baits" class="baits"></div>
       <button type="button" id="main-btn" class="main-btn">🎣 キャスト</button>
       <div id="hint" class="hint"></div>
@@ -162,23 +158,23 @@
   <div id="ov-howto" class="overlay"><div class="card howto">
     <h2>あそびかた</h2>
     <ol>
-      <li><b>場所とエサを選ぶ</b>：◀▶で釣る場所、下のボタンでエサ。エサごとに好きな猫がちがいます（煮干しは無料）。</li>
-      <li><b>キャスト</b>：ゲージが真ん中（グレート）で止めると猫が早く来て、レアな猫も来やすい。</li>
+      <li><b>ねらう場所とエサを選ぶ</b>：猫ハウスの絵をタップしてねらう場所（クッション・トンネル・タワー・ロフト・つり橋・屋根裏）を決め、下のボタンでエサを選ぶ。エサごとに好きな猫がちがいます（煮干しは無料）。</li>
+      <li><b>キャスト</b>：右の人が投げます。ゲージが真ん中（グレート）でねらいどおり。左で止めると手前、右だと飛びすぎ。グレートだと猫が早く来て、レアな猫も来やすい。</li>
       <li><b>待つ</b>：猫がエサに近づいてきます。ウキが<b>ピクッ</b>とするのはまだ。押すと逃げます。</li>
       <li><b>合わせる</b>：ウキが沈んで「！」が出たらすぐ押す。早いほどパーフェクト（コイン1.2倍）。</li>
       <li><b>リールを巻く</b>：長押しで巻く。テンションが赤（右端）まで行くと<b>糸が切れる</b>、青（左端）のままだと<b>逃げる</b>。猫が「グイッ！」とあばれたら離そう。</li>
       <li>目標の数を釣るとステージクリア。新しい場所とレアな猫が解放されます。</li>
     </ol>
-    <p class="muted small">操作：タップ／クリック、またはキーボード（スペース・Enter＝キャスト/合わせ/長押しで巻く、←→＝場所、↑↓＝エサ、Esc＝やめる）</p>
+    <p class="muted small">操作：タップ／クリック、またはキーボード（スペース・Enter＝キャスト/合わせ/長押しで巻く、←→＝ねらう場所、↑↓＝エサ、Esc＝やめる）</p>
     <button type="button" id="howto-close" class="btn big">OK</button>
   </div></div>
 
   <div id="medal-pop" class="medal-pop"></div>
 </div>
-<script src="js/data.js?v=20261005012940"></script>
-<script src="js/save.js?v=20261005012940"></script>
-<script src="js/meta.js?v=20261005012940"></script>
-<script src="js/sound.js?v=20261005012940"></script>
-<script src="js/game.js?v=20261005012940"></script>
+<script src="js/data.js?v=20261005020318"></script>
+<script src="js/save.js?v=20261005020318"></script>
+<script src="js/meta.js?v=20261005020318"></script>
+<script src="js/sound.js?v=20261005020318"></script>
+<script src="js/game.js?v=20261005020318"></script>
 </body>
 </html>
