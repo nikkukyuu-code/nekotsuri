@@ -36,7 +36,7 @@
   /* ---------- screens ---------- */
   function show(id) {
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.toggle('active', s.id === id); });
-    if (id === 'scr-title') refreshTitle();
+    if (id === 'scr-title') { refreshTitle(); if (window.__nkCheckUpdate) setTimeout(window.__nkCheckUpdate, 800); }
     if (id === 'scr-play') setTimeout(resize, 0);
   }
   function overlay(id, on) { $(id).classList.toggle('show', !!on); }
