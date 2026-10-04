@@ -5,7 +5,7 @@
 <!--nk-autoupdate--><script>
 /* 自動更新: 新しい版が公開されたら、安全なとき（タイトル画面など・試合中でない）だけ自動で読み込み直す。記録(localStorage)には触れない。 */
 (function () {
-  var PAGE_LABEL = '2026-10-05 01:24:50';
+  var PAGE_LABEL = '2026-10-05 01:29:40';
   var URL = '/nekotsuri/version.json', KEY = 'nkReloadFor:nekotsuri-top', EVERY = 0;
   function safe() { try { return !!(true); } catch (e) { return false; } }
   var busy = false;
@@ -17,7 +17,7 @@
       var v = d && d.label;
       if (!v || v === PAGE_LABEL || !safe()) return;
       try { if (sessionStorage.getItem(KEY) === v) return; sessionStorage.setItem(KEY, v); } catch (e) { return; }
-      location.replace(location.pathname + '?r=' + String(v).replace(/[^0-9]/g, '') + location.hash);
+      var q = location.search.replace(/^\?/, '').split('&').filter(function (s) { return s && s.indexOf('r=') !== 0; }); q.push('r=' + String(v).replace(/[^0-9]/g, '')); location.replace(location.pathname + '?' + q.join('&') + location.hash);
     }).catch(function () { busy = false; });
   }
   window.__nkCheckUpdate = check;
@@ -58,7 +58,7 @@
 <main>
   <h1>猫ハウスつり<span class="badge">β版</span></h1>
   <p class="beta" role="note"><strong>⚠ β版（ベータ版）公開中</strong>このゲームは現在ベータ版です。仕様やバランスは予告なく変わることがあり、不具合が起きることもあります。</p>
-  <img class="hero" src="game/assets/cathouse.jpg?v=20261005012450" alt="猫ハウスのイラスト">
+  <img class="hero" src="game/assets/cathouse.jpg?v=20261005012940" alt="猫ハウスのイラスト">
   <a class="play" href="game/">🎣 ゲームを遊ぶ</a>
 
   <h2>どんなゲーム？</h2>
@@ -113,7 +113,7 @@
   </table>
 
   <footer>
-    <p>バージョン（公開日時）：<span class="build">2026-10-05 01:24:50</span></p>
+    <p>バージョン（公開日時）：<span class="build">2026-10-05 01:29:40</span></p>
     <p><a href="game/">ゲームを遊ぶ</a>・<a href="/">ゲーム一覧（トップページ）</a>・<a href="/transfer/">引き継ぎ</a></p>
   </footer>
 </main>

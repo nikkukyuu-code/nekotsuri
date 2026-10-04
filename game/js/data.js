@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   // Publish datetime (epoch ms). Stamped by tools/stamp.py at publish time.
-  var BUILD_TIME = 1791131090700;
+  var BUILD_TIME = 1791131380494;
 
   var RARITY_W = { 1: 100, 2: 42, 3: 16, 4: 5, 5: 1.2 };
   // like: bait ids this cat loves (x3.2). power: pull strength. win: bite window (s). kg: [min,max]
