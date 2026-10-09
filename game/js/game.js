@@ -24,8 +24,7 @@
   }
   function assetList() {
     var L = [['house', 'assets/cathouse.jpg']];
-    B.forEach(function (b) { ['walk', 'walk2', 'sit', 'leap'].forEach(function (p) { L.push([b.id + '_' + p, 'assets/cats/' + b.id + '_' + p + '.png']); }); });
-    ['sleep_a', 'sleep_b', 'sleep_c'].forEach(function (k) { L.push([k, 'assets/cats/' + k + '.png']); });
+    B.forEach(function (b) { L.push(['cat_' + b.id, 'assets/cats/atlas_' + b.id + '.png']); }); // 16 poses per breed (js/sprites.js)
     BAITS.forEach(function (b) { L.push(['bait_' + b.id, 'assets/items/bait_' + b.id + '.png']); });
     ['rod', 'net', 'bucket', 'bucket_empty', 'coins', 'medal'].forEach(function (k) { L.push([k, 'assets/items/' + k + '.png']); });
     return L;
@@ -105,7 +104,7 @@
     DPR = Math.min(2.5, window.devicePixelRatio || 1);
     cv.style.width = Math.round(LW * K) + 'px'; cv.style.height = Math.round(LH * K) + 'px';
     cv.width = Math.round(LW * K * DPR); cv.height = Math.round(LH * K * DPR);
-    cx.imageSmoothingEnabled = false;
+    cx.imageSmoothingEnabled = true;
     var rest = LH - mainH;
     if (rest >= 150) {
       VIEW = { x: 0, y: 0, s: LW / IW, w: LW, h: mainH };
@@ -151,16 +150,18 @@
     toast('ステージ ' + n + '<br><small>' + info.casts + '回のキャストで ' + info.target + '匹 つろう！<br>家の中をタップして、ねらう場所を決めよう</small>', 2600);
   }
   var lastBait = 'niboshi';
+  var IDLE = ['sit', 'lie', 'alert', 'happy'];
   function makeAmbient(n) {
     var pool = B.filter(function (b) { return b.r <= 2; }), out = [];
     for (var i = 0; i < 3; i++) {
       var b = pool[Math.floor(Math.random() * pool.length)];
-      out.push({ id: b.id, x: rnd(380, 1080), y: rnd(600, 700), tx: rnd(380, 1080), wait: rnd(0, 3), f: 0 });
+      out.push({ id: b.id, x: rnd(380, 1080), y: rnd(655, 712), tx: rnd(380, 1080), wait: rnd(0, 3), f: 0, idle: IDLE[i % IDLE.length], face: 1 });
     }
     return out;
   }
-  function makeSleepers() {
-    return [{ k: 'sleep_a', x: 236, y: 352 }, { k: 'sleep_c', x: 1140, y: 386 }, { k: 'sleep_b', x: 430, y: 590 }];
+  function makeSleepers() { // cats lounging around the house (lying pose)
+    var pool = B.filter(function (b) { return b.r <= 3; }), pick = function () { return pool[Math.floor(Math.random() * pool.length)].id; };
+    return [{ id: pick(), x: 240, y: 360, flip: false, sc: 0.85 }, { id: pick(), x: 1140, y: 392, flip: true, sc: 0.85 }, { id: pick(), x: 430, y: 596, flip: false, sc: 0.95 }];
   }
 
   /* ---------- HUD / controls ---------- */
@@ -304,7 +305,7 @@
     SV.stat('catches'); SV.earn(coin); SV.save();
     G.caught++; G.earned += coin; G.got.push(b.id);
     SND.play('catch'); SND.play('coin');
-    $('catch-img').src = catSrc(b.id, 'sit');
+    $('catch-img').src = catSrc(b.id, 'jump');
     $('catch-img').classList.toggle('gold', !!b.gold);
     $('catch-name').textContent = b.name;
     $('catch-new').hidden = !isNew;
@@ -349,7 +350,7 @@
     $('res-bar').style.width = Math.min(100, G.caught / G.info.target * 100) + '%';
     $('res-coin').textContent = fmt(G.earned + bonus);
     $('res-bonus').textContent = clear ? '（クリアボーナス +' + fmt(bonus) + '）' : '';
-    $('res-cats').innerHTML = G.got.length ? G.got.map(function (id) { return '<img src="' + catSrc(id, 'sit') + '" alt="' + esc(BY[id].name) + '" class="' + (BY[id].gold ? 'gold' : '') + '">'; }).join('') : '<span class="muted">今回は釣れませんでした</span>';
+    $('res-cats').innerHTML = G.got.length ? G.got.map(function (id) { return '<img src="' + catSrc(id, 'happy') + '" alt="' + esc(BY[id].name) + '" class="' + (BY[id].gold ? 'gold' : '') + '">'; }).join('') : '<span class="muted">今回は釣れませんでした</span>';
     var nextSpot = SPOTS.filter(function (x) { return x.stage === G.stage + 1; })[0];
     $('res-unlock').textContent = clear && nextSpot ? '🔓 新しい場所「' + nextSpot.name + '」が解放！' : '';
     $('res-next').hidden = !clear;
@@ -365,15 +366,16 @@
     G.t += dt;
     G.ambient.forEach(function (a) {
       // ambient cats keep away from the bait so it is clear which cat is biting
-      if (G.bob && Math.abs(a.x - G.bob.x) < 230 && Math.abs(a.y - G.bob.y) < 130) {
-        var away = a.x >= G.bob.x ? 1 : -1, nx = G.bob.x + away * 320;
-        if (nx < 380 || nx > 1080) nx = G.bob.x - away * 320;
+      var fp = G.bob || (G.cat && (G.state === 'hooked' || G.state === 'reel') ? G.cat : null);
+      if (fp && Math.abs(a.x - fp.x) < 230 && Math.abs(a.y - fp.y) < 130) {
+        var away = a.x >= fp.x ? 1 : -1, nx = fp.x + away * 320;
+        if (nx < 380 || nx > 1080) nx = fp.x - away * 320;
         a.tx = clamp(nx, 380, 1080); a.wait = 0;
       }
       if (a.wait > 0) { a.wait -= dt; return; }
       var d = a.tx - a.x; a.f += dt;
-      if (Math.abs(d) < 4) { a.wait = rnd(1.5, 5); a.tx = rnd(380, 1080); return; }
-      a.x += Math.sign(d) * 45 * dt;
+      if (Math.abs(d) < 4) { a.wait = rnd(1.5, 5); a.tx = rnd(380, 1080); a.idle = IDLE[Math.floor(Math.random() * IDLE.length)]; return; }
+      a.face = Math.sign(d); a.x += Math.sign(d) * 45 * dt;
     });
     G.texts.forEach(function (t) { t.life -= dt; t.dy -= 18 * dt; });
     G.texts = G.texts.filter(function (t) { return t.life > 0; });
@@ -387,11 +389,11 @@
     } else if (st === 'fly') {
       if (G.t >= 0.75) {
         SND.play('land');
-        var b = pickCat(), side = Math.random() < 0.5 ? -1 : 1;
+        var b = pickCat(), side = -1; // cats come from the left and face right, toward the angler
         var aid = G.area ? G.area.id : 'floor';
         var range = aid === 'attic' ? 70 : aid === 'loft' || aid === 'bridge' ? 110 : aid === 'tower' ? 150 : 220;
         var ap = rnd(2.2, 4.8) * (G.acc > 0.9 ? 0.6 : G.acc > 0.65 ? 0.8 : 1) * (G.area ? 1 : 1.3);
-        G.cat = { b: b, side: side, x: G.bob.x + side * range, y: G.bob.y, tx: G.bob.x + side * 30, delay: rnd(0.6, 1.6) * (G.acc > 0.9 ? 0.6 : 1), speed: range / ap, f: 0, mode: 'walk', fakes: Math.floor(rnd(0, 3.99)), nt: 0 };
+        G.cat = { b: b, side: side, x: Math.max(30, G.bob.x + side * range), y: G.bob.y, tx: G.bob.x - 52, delay: rnd(0.6, 1.6) * (G.acc > 0.9 ? 0.6 : 1), speed: range / ap, f: 0, mode: 'walk', fakes: Math.floor(rnd(0, 3.99)), nt: 0 };
         if (!G.area) addText('ふつうの床…', { x: G.bob.x, y: G.bob.y - 60 }, '#e8d6bb', 15);
         setState('wait');
       }
@@ -401,7 +403,7 @@
       else {
         c.f += dt; var d = c.tx - c.x;
         if (Math.abs(d) < 3) { c.mode = 'sit'; c.nt = rnd(0.8, 1.6); SV.useBait(G.bait); updateHud(); setState('nibble'); }
-        else c.x += Math.sign(d) * Math.min(Math.abs(d), c.speed * dt);
+        else c.x += Math.sign(d) * Math.min(Math.abs(d), c.speed * (Math.abs(d) > 90 ? 1.25 : 0.55) * dt);
       }
     } else if (st === 'nibble') {
       var c2 = G.cat; c2.nt -= dt;
@@ -464,7 +466,22 @@
     cx.translate(x, y); if (flip) cx.scale(-1, 1);
     cx.drawImage(im, -w / 2, -h, w, h); cx.restore();
   }
-  function catKey(id, pose) { return id + '_' + pose; }
+  var SPR = window.NK_SPRITES, CS = 76 / 113.6; // cat scale: a walking cat is ~76px tall on the 1376px house picture
+  function frame(pose) { return SPR.poses[pose] || SPR.poses.sit; }
+  // draw a cat pose with its feet at (x,y); sprites face RIGHT, flip = face left
+  function drawCat(id, pose, x, y, sc, flip, alpha) {
+    var im = IMG['cat_' + id], f = frame(pose); if (!im) return;
+    var k = CS * (sc || 1);
+    cx.save(); if (alpha != null) cx.globalAlpha = alpha;
+    cx.translate(x, y); if (flip) cx.scale(-1, 1); cx.scale(k, k);
+    cx.drawImage(im, f.x, f.y, f.w, f.h, -f.ax, -f.ay, f.w, f.h); cx.restore();
+  }
+  // where the fishing line attaches (mouth) for a pose, in image coords
+  function mouthAt(pose, x, y, sc, flip) {
+    var f = frame(pose), k = CS * (sc || 1);
+    var mx = f.mx != null ? f.mx : f.ax + (f.w - f.ax) * 0.7, my = f.my != null ? f.my : f.h * 0.3;
+    return { x: x + (flip ? -1 : 1) * (mx - f.ax) * k, y: y + (my - f.ay) * k };
+  }
   function rodTip(st) {
     var R = G.reel, tens = st === 'reel' ? clamp(R.tension / 100, 0, 1) : 0;
     if (st === 'power') return { x: ANG.x - 40 - 150 * G.power, y: ANG.y - 230 + 60 * G.power };
@@ -473,11 +490,12 @@
   // draw the whole world in IMAGE coordinates (transform set by caller)
   function drawWorld(scale) {
     var st = G.state, inv = 1 / scale;
+    cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = 'high';
     if (IMG.house) cx.drawImage(IMG.house, 0, 0, IW, IHH);
-    G.sleepers.forEach(function (z) { drawSprite(z.k, z.x, z.y, 0.9, false); });
+    G.sleepers.forEach(function (z) { drawCat(z.id, 'lie', z.x, z.y, z.sc, z.flip); });
     G.ambient.forEach(function (a) {
-      var walking = a.wait <= 0, pose = walking ? (Math.floor(a.f * 6) % 2 ? 'walk2' : 'walk') : 'sit';
-      drawSprite(catKey(a.id, pose), a.x, a.y, 0.95, walking && a.tx > a.x, 0.95);
+      var walking = a.wait <= 0, pose = walking ? 'walk' + (1 + Math.floor(a.f * 8) % 4) : a.idle;
+      drawCat(a.id, pose, a.x, a.y, 0.95, a.face < 0, 0.97);
     });
     // aim marker
     if (st === 'idle' || st === 'power') {
@@ -489,13 +507,16 @@
     }
     var tip = drawAngler(st);
     var bob = G.bob;
+    var c = G.cat;
     if (bob && st !== 'fly' && st !== 'reel' && st !== 'hooked') {
-      drawSprite('bait_' + G.bait, bob.x, bob.y + 4, 1.0, false);
-      var fy = bob.y - 18 - bob.twitch * 8 + bob.dip * 12, fx = bob.x - 18 + (st === 'bite' ? Math.sin(G.t * 40) * 4 : 0);
+      var biting = st === 'bite' && c;
+      if (!biting) drawSprite('bait_' + G.bait, bob.x, bob.y + 4, 1.0, false);
+      var fy = bob.y - 18 - bob.twitch * 8 + bob.dip * 12, fx = bob.x + 14 + (st === 'bite' ? Math.sin(G.t * 40) * 4 : 0);
       if (st === 'wait') fy += Math.sin(performance.now() / 300) * 2;
       line(tip.x, tip.y, fx, fy - 8, 0.12, inv);
+      if (biting) { var mo = mouthAt('bite', c.x, c.y, 1, false); line(fx, fy + 4, mo.x, mo.y, 0.05, inv); }
       drawFloat(fx, fy, bob.dip, 1.4);
-      if (st === 'bite') bubble(fx - 30, fy - 60, '！', Math.max(1.3, inv * 0.45));
+      if (st === 'bite') bubble(fx + 10, fy - 60, '！', Math.max(1.3, inv * 0.45));
     }
     if (st === 'fly') {
       var t = clamp(G.t / 0.75, 0, 1), ex = bob.x, ey = bob.y;
@@ -503,23 +524,30 @@
       line(tip.x, tip.y, px, py, 0.05, inv);
       drawSprite('bait_' + G.bait, px, py + 10, 1.0, false);
     }
-    var c = G.cat;
     if (c && !(st === 'wait' && c.delay > 0)) {
-      var pose, flip, y = c.y, sc = 1.0;
+      var pose, flip = false, y = c.y, sc = 1.0, mo;
       if (st === 'reel') {
         var R = G.reel;
-        pose = R.burst ? 'leap' : (Math.floor(G.t * 8) % 2 ? 'walk2' : 'walk');
-        flip = false; // faces left = pulling away from the angler
-        line(tip.x, tip.y, c.x + 10, c.y - 30, clamp(1 - R.tension / 50, 0, 1) * 0.2, inv);
+        // pulled on the line toward the angler (line from the mouth to the right); thrashing = paw-up / jump
+        pose = R.burst ? (Math.floor(G.t * 5) % 2 ? 'paw' : 'jump') : 'pull';
+        mo = mouthAt(pose, c.x, y, sc, false);
+        line(tip.x, tip.y, mo.x, mo.y, clamp(1 - R.tension / 50, 0, 1) * 0.2, inv);
+      } else if (st === 'hooked') {
+        pose = 'paw'; y -= Math.sin(clamp(G.t / 0.55, 0, 1) * Math.PI) * 60;
+        mo = mouthAt(pose, c.x, y, sc, false); line(tip.x, tip.y, mo.x, mo.y, 0.05, inv);
+      } else if (st === 'bite') {
+        pose = 'bite';
+      } else if (c.flee) {
+        pose = 'run' + (1 + Math.floor(c.f * 9) % 2); flip = c.fleeDir < 0;
+      } else if (c.mode === 'walk') {
+        var far = Math.abs(c.tx - c.x) > 90;
+        pose = far ? 'run' + (1 + Math.floor(c.f * 8) % 2) : 'stalk' + (1 + Math.floor(c.f * 4) % 2);
+        flip = c.tx < c.x;
       } else {
-        var walking = c.mode === 'walk' || c.flee;
-        pose = walking ? (Math.floor(c.f * 7) % 2 ? 'walk2' : 'walk') : 'sit';
-        flip = c.flee ? c.fleeDir > 0 : c.side < 0;
-        if (st === 'hooked') { pose = 'leap'; y -= Math.sin(clamp(G.t / 0.55, 0, 1) * Math.PI) * 70; line(tip.x, tip.y, c.x, y - 30, 0.05, inv); }
-        if (st === 'nibble' && G.bob && G.bob.twitch > 0) y -= G.bob.twitch * 5;
+        pose = st === 'nibble' && G.bob && G.bob.twitch > 0.25 ? 'paw' : 'sit';
       }
       if (c.b.gold) glow(c.x, y - 35, 60);
-      drawSprite(catKey(c.b.id, pose), c.x, y, sc, flip);
+      drawCat(c.b.id, pose, c.x, y, sc, flip);
     }
   }
   function draw() {

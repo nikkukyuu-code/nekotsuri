@@ -5,7 +5,7 @@
 <!--nk-autoupdate--><script>
 /* 自動更新: 新しい版が公開されたら、安全なとき（タイトル画面など・試合中でない）だけ自動で読み込み直す。記録(localStorage)には触れない。 */
 (function () {
-  var PAGE_LABEL = '2026-10-09 16:34:03';
+  var PAGE_LABEL = '2026-10-09 19:36:32';
   var URL = '/nekotsuri/version.json', KEY = 'nkReloadFor:nekotsuri', EVERY = 60;
   function safe() { try { return !!(!document.getElementById('scr-play').classList.contains('active') && !document.querySelector('.overlay.show')); } catch (e) { return false; } }
   var busy = false;
@@ -28,12 +28,12 @@
 })();
 </script><!--/nk-autoupdate-->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-<meta name="nk-v" content="20261009163403" />
+<meta name="nk-v" content="20261009193632" />
 <title>猫ハウスつり（β版）</title>
 <meta name="description" content="猫ハウスで猫を釣るブラウザゲーム（β版）。エサを選んでキャスト、ウキが沈んだら合わせて、テンションに気をつけながらリールを巻こう。" />
 <meta name="theme-color" content="#3b2414" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="stylesheet" href="css/style.css?v=20261009163403" />
+<link rel="stylesheet" href="css/style.css?v=20261009193632" />
 </head>
 <body>
 <div id="app">
@@ -47,11 +47,11 @@
     <h1 class="logo">猫ハウス<span>つり</span><em class="beta-badge">BETA</em></h1>
     <p class="beta-line">⚠ <b>β版（ベータ版）</b>です。仕様・バランスは変わることがあります。</p>
     <div class="hero">
-      <img class="hero-bg" src="assets/cathouse.jpg" alt="猫ハウス">
-      <img class="hero-cat c1" src="assets/cats/chatora_walk.png" alt="">
-      <img class="hero-cat c2" src="assets/cats/siamese_sit.png" alt="">
-      <img class="hero-cat c3" src="assets/cats/kuro_walk.png" alt="">
-      <img class="hero-bucket" src="assets/items/bucket.png" alt="">
+      <img class="hero-bg" src="assets/cathouse.jpg?v=20261009193632" alt="猫ハウス">
+      <img class="hero-cat c1" src="assets/cats/chatora_walk1.png?v=20261009193632" alt="">
+      <img class="hero-cat c2" src="assets/cats/siamese_sit.png?v=20261009193632" alt="">
+      <img class="hero-cat c3" src="assets/cats/kuro_sit.png?v=20261009193632" alt="">
+      <img class="hero-bucket" src="assets/items/bucket.png?v=20261009193632" alt="">
     </div>
     <div class="play-row">
       <div class="stage-sel">
@@ -86,7 +86,7 @@
     <header class="hud">
       <span class="h-stage" id="hud-stage">ST 1</span>
       <span title="のこりキャスト">🎣<b id="hud-casts">10</b></span>
-      <span title="釣った数/目標"><img src="assets/items/bucket.png" alt="バケツ"><b id="hud-caught">0/3</b></span>
+      <span title="釣った数/目標"><img src="assets/items/bucket.png?v=20261009193632" alt="バケツ"><b id="hud-caught">0/3</b></span>
       <span title="コイン">🪙<b id="hud-coins">0</b></span>
       <button type="button" id="btn-quit" class="mini" aria-label="やめる">✕</button>
     </header>
@@ -133,7 +133,7 @@
     <p class="cc-perfect" id="catch-perfect" hidden>パーフェクト合わせ ボーナス ×1.2</p>
     <p class="cc-coin">🪙 <b id="catch-coin">+0</b></p>
     <p class="cc-desc" id="catch-desc"></p>
-    <p class="cc-bucket"><img src="assets/items/bucket.png" alt="">バケツに入れた！</p>
+    <p class="cc-bucket"><img src="assets/items/bucket.png?v=20261009193632" alt="">バケツに入れた！</p>
     <button type="button" id="catch-ok" class="btn big">つぎへ</button>
   </div></div>
 
@@ -171,10 +171,11 @@
 
   <div id="medal-pop" class="medal-pop"></div>
 </div>
-<script src="js/data.js?v=20261009163403"></script>
-<script src="js/save.js?v=20261009163403"></script>
-<script src="js/meta.js?v=20261009163403"></script>
-<script src="js/sound.js?v=20261009163403"></script>
-<script src="js/game.js?v=20261009163403"></script>
+<script src="js/sprites.js?v=20261009193632"></script>
+<script src="js/data.js?v=20261009193632"></script>
+<script src="js/save.js?v=20261009193632"></script>
+<script src="js/meta.js?v=20261009193632"></script>
+<script src="js/sound.js?v=20261009193632"></script>
+<script src="js/game.js?v=20261009193632"></script>
 </body>
 </html>
