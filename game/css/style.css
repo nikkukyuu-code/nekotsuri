@@ -39,7 +39,7 @@ button { font-family: inherit; }
 @keyframes betaPulse { 50% { box-shadow: 0 0 22px rgba(255,90,40,1); } }
 .beta-line { margin: 0; width: 100%; padding: 6px 10px; border-radius: 10px; border: 2px solid #ff8a00; background: rgba(255,90,40,.18); font-size: .82rem; text-align: center; }
 .beta-line b { color: #ffd24a; }
-.hero { position: relative; width: 100%; aspect-ratio: 1408 / 620; border-radius: 16px; overflow: hidden; border: 3px solid #f2a93b; flex: none; box-shadow: 0 6px 18px rgba(0,0,0,.4); }
+.hero { position: relative; width: 100%; aspect-ratio: 1376 / 620; border-radius: 16px; overflow: hidden; border: 3px solid #f2a93b; flex: none; box-shadow: 0 6px 18px rgba(0,0,0,.4); }
 .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 80%; }
 .hero-cat, .hero-bucket { position: absolute; image-rendering: pixelated; height: 26%; }
 .hero-cat.c1 { left: 28%; bottom: 10%; animation: walk1 6s linear infinite; }
@@ -154,7 +154,7 @@ img.gold { filter: drop-shadow(0 0 6px #ffd24a) brightness(1.1); }
 .medal-pop.show { transform: translate(-50%, 0); visibility: visible; }
 .medal-pop img { height: 46px; image-rendering: pixelated; } .medal-pop div { display: flex; flex-direction: column; } .medal-pop small { font-weight: 800; }
 @media (max-height: 700px) {
-  #scr-title { gap: 6px; } .logo { font-size: 1.8rem; } .hero { aspect-ratio: 1408 / 400; } .btn { min-height: 44px; padding: 6px 8px; } .save-notice { font-size: .7rem; }
+  #scr-title { gap: 6px; } .logo { font-size: 1.8rem; } .hero { aspect-ratio: 1376 / 400; } .btn { min-height: 44px; padding: 6px 8px; } .save-notice { font-size: .7rem; }
   .bait-chip { min-height: 46px; } .main-btn { min-height: 54px; }
 }
 @media (prefers-reduced-motion: reduce) { .beta-badge, .btn-transfer, .hero-cat.c1 { animation: none; } }

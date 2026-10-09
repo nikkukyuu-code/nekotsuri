@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   // Publish datetime (epoch ms). Stamped by tools/stamp.py at publish time.
-  var BUILD_TIME = 1791133398365;
+  var BUILD_TIME = 1791531243285;
 
   var RARITY_W = { 1: 100, 2: 42, 3: 16, 4: 5, 5: 1.2 };
   // like: bait ids this cat loves (x3.2). power: pull strength. win: bite window (s). kg: [min,max]
@@ -31,15 +31,15 @@
     { id: 'yaki', name: '焼き魚', price: 150, pack: 5, boost: 1.2, desc: 'レアな猫が集まる高級エサ' },
   ];
 
-  // x, y = bait position on the cat-house image (1408x768). floor: 1 = cats walk on this level.
+  // x, y = bait position on the cat-house image (1376x768). floor: 1 = cats walk on this level.
   var SPOTS = [
-    { id: 'cushion', name: '1F ひだまりクッション', x: 470, y: 630, stage: 1, cats: ['chatora', 'kijitora', 'kuro', 'shiro', 'cream'] },
-    { id: 'tunnel', name: '1F トンネル前', x: 800, y: 655, stage: 1, cats: ['kuro', 'kijitora', 'sabatora', 'hachiware', 'sabi'] },
-    { id: 'tower', name: '1F キャットタワー下', x: 690, y: 470, stage: 2, cats: ['chatora', 'hachiware', 'mike', 'siamese', 'sabatora'] },
-    { id: 'step', name: '1F 右のステップ', x: 1120, y: 620, stage: 3, cats: ['sabatora', 'shiro', 'cream', 'mike', 'sabi'] },
-    { id: 'loft', name: '2F ロフト', x: 390, y: 318, stage: 4, cats: ['siamese', 'mike', 'oshare', 'cream', 'shiro'] },
-    { id: 'bridge', name: '2F つり橋', x: 880, y: 262, stage: 5, cats: ['hachiware', 'sabi', 'oshare', 'maneki', 'mike'] },
-    { id: 'attic', name: '屋根裏ベッド', x: 780, y: 60, stage: 6, cats: ['maneki', 'oshare', 'siamese', 'kin'] },
+    { id: 'cushion', name: '1F ひだまりクッション', x: 455, y: 650, stage: 1, cats: ['chatora', 'kijitora', 'kuro', 'shiro', 'cream'] },
+    { id: 'tunnel', name: '1F トンネル前', x: 790, y: 665, stage: 1, cats: ['kuro', 'kijitora', 'sabatora', 'hachiware', 'sabi'] },
+    { id: 'tower', name: '1F キャットタワー下', x: 735, y: 462, stage: 2, cats: ['chatora', 'hachiware', 'mike', 'siamese', 'sabatora'] },
+    { id: 'step', name: '1F 右のステップ', x: 1075, y: 636, stage: 3, cats: ['sabatora', 'shiro', 'cream', 'mike', 'sabi'] },
+    { id: 'loft', name: '2F ロフト', x: 320, y: 372, stage: 4, cats: ['siamese', 'mike', 'oshare', 'cream', 'shiro'] },
+    { id: 'bridge', name: '2F つり橋', x: 840, y: 212, stage: 5, cats: ['hachiware', 'sabi', 'oshare', 'maneki', 'mike'] },
+    { id: 'attic', name: '屋根裏ベッド', x: 768, y: 50, stage: 6, cats: ['maneki', 'oshare', 'siamese', 'kin'] },
   ];
 
   var RODS = [

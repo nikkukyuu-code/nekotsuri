@@ -94,7 +94,7 @@
 
   /* ---------- canvas & layout (fixed: the whole cat house is always visible, no camera) ---------- */
   var cv, cx, LW = 450, LH = 700, K = 1, DPR = 1;
-  var IW = 1408, IHH = 768;
+  var IW = 1376, IHH = 768;
   var VIEW = { x: 0, y: 0, s: 1, w: 450, h: 245 }, ZOOM = null; // ZOOM = fixed close-up window (null if no room)
   function resize() {
     var wrap = $('stage-wrap'); if (!wrap || !cv) return;
@@ -120,7 +120,7 @@
 
   /* ---------- game state ---------- */
   var G = null;
-  var ANG = { x: 1352, y: 742 }; // angler feet (garden, right edge of the picture)
+  var ANG = { x: 1322, y: 742 }; // angler feet (garden, right edge of the picture)
   var FALLBACK = { id: 'floor', name: 'ふつうの床', cats: ['chatora', 'kijitora', 'kuro'] };
   function unlockedSpots(n) { return SPOTS.filter(function (s) { return s.stage <= n; }); }
   function nearestSpot(x, y, onlyUnlocked) {
@@ -155,12 +155,12 @@
     var pool = B.filter(function (b) { return b.r <= 2; }), out = [];
     for (var i = 0; i < 3; i++) {
       var b = pool[Math.floor(Math.random() * pool.length)];
-      out.push({ id: b.id, x: rnd(380, 1150), y: rnd(600, 700), tx: rnd(380, 1150), wait: rnd(0, 3), f: 0 });
+      out.push({ id: b.id, x: rnd(380, 1080), y: rnd(600, 700), tx: rnd(380, 1080), wait: rnd(0, 3), f: 0 });
     }
     return out;
   }
   function makeSleepers() {
-    return [{ k: 'sleep_a', x: 240, y: 330 }, { k: 'sleep_c', x: 1168, y: 452 }, { k: 'sleep_b', x: 440, y: 584 }];
+    return [{ k: 'sleep_a', x: 236, y: 352 }, { k: 'sleep_c', x: 1140, y: 386 }, { k: 'sleep_b', x: 430, y: 590 }];
   }
 
   /* ---------- HUD / controls ---------- */
@@ -214,7 +214,7 @@
     });
   }
   function setAim(x, y) {
-    G.aim.x = clamp(x, 60, 1260); G.aim.y = clamp(y, 40, 735);
+    G.aim.x = clamp(x, 60, 1230); G.aim.y = clamp(y, 40, 735);
     var a = areaAt(G.aim.x, G.aim.y);
     if (a && a.stage <= G.stage) { G.aim.x = lerp(G.aim.x, a.x, 0.6); G.aim.y = lerp(G.aim.y, a.y, 0.6); }
     SND.play('tap'); updateHud();
@@ -260,7 +260,7 @@
       G.casts--; SV.stat('casts');
       // short (left half of gauge) = lands nearer the angler (right), long = farther left
       var miss = (1 - G.acc) * 150, dir = G.power < 0.5 ? 1 : -1;
-      var lx = clamp(G.aim.x + dir * miss + rnd(-12, 12), 60, 1260), ly = clamp(G.aim.y + rnd(-10, 10) * (1 - G.acc), 40, 735);
+      var lx = clamp(G.aim.x + dir * miss + rnd(-12, 12), 60, 1230), ly = clamp(G.aim.y + rnd(-10, 10) * (1 - G.acc), 40, 735);
       G.bob = { x: lx, y: ly, dip: 0, twitch: 0, fx: ANG.x, fy: ANG.y };
       var a = nearestSpot(lx, ly, true);
       G.area = a.d <= 170 ? a.spot : null;
@@ -367,12 +367,12 @@
       // ambient cats keep away from the bait so it is clear which cat is biting
       if (G.bob && Math.abs(a.x - G.bob.x) < 230 && Math.abs(a.y - G.bob.y) < 130) {
         var away = a.x >= G.bob.x ? 1 : -1, nx = G.bob.x + away * 320;
-        if (nx < 380 || nx > 1150) nx = G.bob.x - away * 320;
-        a.tx = clamp(nx, 380, 1150); a.wait = 0;
+        if (nx < 380 || nx > 1080) nx = G.bob.x - away * 320;
+        a.tx = clamp(nx, 380, 1080); a.wait = 0;
       }
       if (a.wait > 0) { a.wait -= dt; return; }
       var d = a.tx - a.x; a.f += dt;
-      if (Math.abs(d) < 4) { a.wait = rnd(1.5, 5); a.tx = rnd(380, 1150); return; }
+      if (Math.abs(d) < 4) { a.wait = rnd(1.5, 5); a.tx = rnd(380, 1080); return; }
       a.x += Math.sign(d) * 45 * dt;
     });
     G.texts.forEach(function (t) { t.life -= dt; t.dy -= 18 * dt; });
@@ -389,7 +389,7 @@
         SND.play('land');
         var b = pickCat(), side = Math.random() < 0.5 ? -1 : 1;
         var aid = G.area ? G.area.id : 'floor';
-        var range = aid === 'attic' ? 110 : aid === 'tower' ? 170 : 230;
+        var range = aid === 'attic' ? 70 : aid === 'loft' || aid === 'bridge' ? 110 : aid === 'tower' ? 150 : 220;
         var ap = rnd(2.2, 4.8) * (G.acc > 0.9 ? 0.6 : G.acc > 0.65 ? 0.8 : 1) * (G.area ? 1 : 1.3);
         G.cat = { b: b, side: side, x: G.bob.x + side * range, y: G.bob.y, tx: G.bob.x + side * 30, delay: rnd(0.6, 1.6) * (G.acc > 0.9 ? 0.6 : 1), speed: range / ap, f: 0, mode: 'walk', fakes: Math.floor(rnd(0, 3.99)), nt: 0 };
         if (!G.area) addText('ふつうの床…', { x: G.bob.x, y: G.bob.y - 60 }, '#e8d6bb', 15);
