@@ -158,3 +158,4 @@ img.gold { filter: drop-shadow(0 0 6px #ffd24a) brightness(1.1); }
 .aim-row { text-align: center; line-height: 1.25; min-height: 2.3em; }
 #aim-name { font-weight: 900; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .aim-sub { font-size: .7rem; font-weight: 700; color: #d9c3a5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.foot a { white-space: nowrap; }
