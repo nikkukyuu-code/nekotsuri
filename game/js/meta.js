@@ -25,7 +25,7 @@
   var visited = false;
   function initTitleMeta() {
     var vEl = document.getElementById('meta-version');
-    if (vEl) vEl.textContent = 'ver ' + fmtTime(NK.BUILD_TIME);
+    if (vEl) vEl.textContent = 'バージョン ' + fmtTime(NK.BUILD_TIME);
     var aEl = document.getElementById('meta-visits'), bEl = document.getElementById('meta-battles');
     if (aEl) { show(aEl, 'アクセス ', VLAST, 0); if (!readLast(VLAST)) aEl.textContent = 'アクセス —'; }
     if (bEl) show(bEl, 'bc ', BLAST, 0);
