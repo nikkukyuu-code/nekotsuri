@@ -160,3 +160,11 @@ img.gold { filter: drop-shadow(0 0 6px #ffd24a) brightness(1.1); }
 .aim-sub { font-size: .7rem; font-weight: 700; color: #d9c3a5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .foot a { white-space: nowrap; }
 .t-top-r { display: inline-flex; gap: 6px; align-items: center; }
+
+/* ===== 共通「◀ 戻る」ボタン（全ゲーム同じ見た目・見出し左端） ===== */
+.sub-back { appearance: none; height: 30px; padding: 0 9px; border-radius: 9px;
+  border: 1px solid rgba(140, 200, 255, 0.6); background: linear-gradient(180deg, rgba(40, 80, 150, 0.95), rgba(18, 36, 80, 0.95));
+  color: #e8f4ff; font: 800 0.8rem/1 sans-serif; letter-spacing: 0; white-space: nowrap; cursor: pointer; box-shadow: 0 0 10px rgba(80, 160, 255, 0.35); -webkit-tap-highlight-color: transparent; }
+.sub-back:active { transform: translateY(1px); }
+.sub-back:focus-visible { outline: 2px solid #5fe0ff; outline-offset: 1px; }
+.sub-head > .sub-back { flex-shrink: 0; }
