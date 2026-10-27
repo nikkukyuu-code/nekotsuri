@@ -36,6 +36,7 @@
     if (bEl) get(BASE + '/get/' + BATTLE).then(function (d) { var v = val(d); if (v != null) show(bEl, 'bc ', BLAST, v); });
   }
   function hitBattle() {
+    try { if (window.__nkVisitBattle) window.__nkVisitBattle(); } catch (_) {}
     get(BASE + '/hit/' + BATTLE).then(function (d) { var v = val(d); if (v != null) writeLast(BLAST, v); });
   }
   window.NKMeta = { initTitleMeta: initTitleMeta, hitBattle: hitBattle, fmtTime: fmtTime };
