@@ -74,7 +74,8 @@ button { font-family: inherit; }
 .spot-txt { flex: 1; min-width: 0; text-align: center; font-weight: 900; font-size: .95rem; line-height: 1.25; }
 .spot-txt > div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .spot-txt small { font-weight: 700; opacity: .7; } .spot-sub { font-size: .7rem; font-weight: 700; color: #d9c3a5; }
-.baits { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.baits { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+html:not([lang="ja"]) .bait-chip .bn { white-space: normal; overflow-wrap: anywhere; text-align: center; font-size: .5rem; line-height: 1.05; max-height: 2.2em; }
 .bait-chip { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 3px 1px 2px; min-height: 52px; border-radius: 10px;
   border: 2px solid transparent; background: rgba(255,255,255,.12); color: #fff; cursor: pointer; }
 .bait-chip img { height: 24px; image-rendering: pixelated; }
@@ -149,7 +150,7 @@ img.gold { filter: drop-shadow(0 0 6px #ffd24a) brightness(1.1); }
 .medal-pop.show { transform: translate(-50%, 0); visibility: visible; }
 .medal-pop img { height: 46px; image-rendering: pixelated; } .medal-pop div { display: flex; flex-direction: column; } .medal-pop small { font-weight: 800; }
 @media (max-height: 700px) {
-  #scr-title { gap: 6px; } .logo { font-size: 1.8rem; } .hero { aspect-ratio: 1376 / 400; } .btn { min-height: 44px; padding: 6px 8px; } .save-notice { font-size: .7rem; }
+  #scr-title { gap: 6px; } .logo { font-size: 1.8rem; margin-top: 10px; } .hero { aspect-ratio: 1376 / 400; } .btn { min-height: 44px; padding: 6px 8px; } .save-notice { font-size: .7rem; }
   .bait-chip { min-height: 46px; } .main-btn { min-height: 54px; }
 }
 @media (prefers-reduced-motion: reduce) { .btn-transfer, .hero-cat.c1 { animation: none; } }

@@ -170,7 +170,7 @@
     if (!a) return { name: '家の床（ふつうの猫）', sub: '場所の近くをねらうと、その場所の猫が来ます', locked: false, spot: null };
     if (a.stage > G.stage) return { name: a.name + ' 🔒', sub: 'ステージ' + a.stage + 'で解放（今は、ふつうの猫だけ）', locked: true, spot: null };
     var cats = a.cats.map(function (id) { var d = SV.get().dex[id]; return d && d.n > 0 ? BY[id].name : '？'; });
-    return { name: a.name, sub: '出る猫：' + cats.join('・'), locked: false, spot: a };
+    return { name: a.name, sub: '出る猫：' + cats.join((window.NKI18N && NKI18N.lang && NKI18N.lang !== 'ja') ? ' · ' : '・'), locked: false, spot: a };
   }
   function updateHud() {
     if (!G) return;
@@ -603,6 +603,18 @@
     cx.fillStyle = g; cx.beginPath(); cx.arc(x, y, r, 0, Math.PI * 2); cx.fill();
   }
   function label(t, x, y, size, col) {
+    // localized: translate first, then shrink the font (instead of squashing glyphs) when the word is much longer than the Japanese
+    var N = window.NKI18N;
+    if (N && N.lang && N.lang !== 'ja' && N.t && typeof t === 'string') {
+      var t2 = N.t(t);
+      if (t2 !== t) {
+        var fs0 = size || 16;
+        cx.save(); cx.font = '900 ' + fs0 + 'px "Hiragino Sans","Noto Sans JP",sans-serif';
+        var w0 = cx.measureText(t).width, w1 = cx.measureText(t2).width; cx.restore();
+        if (w1 > w0 * 1.15) size = Math.max(fs0 * 0.6, fs0 * w0 * 1.15 / w1);
+        t = t2;
+      }
+    }
     cx.save(); cx.font = '900 ' + (size || 16) + 'px "Hiragino Sans","Noto Sans JP",sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle';
     cx.lineWidth = Math.max(3, size / 4); cx.strokeStyle = 'rgba(40,20,10,0.9)'; cx.lineJoin = 'round'; cx.strokeText(t, x, y);
     cx.fillStyle = col || '#fff'; cx.fillText(t, x, y); cx.restore();
@@ -715,7 +727,7 @@
     $('dex-list').innerHTML = B.map(function (b) {
       var d = s.dex[b.id], ok = d && d.n > 0;
       return '<div class="dex-card ' + (ok ? 'got' : 'no') + '"><img src="' + catSrc(b.id, 'sit') + '" alt="" class="' + (b.gold ? 'gold' : '') + '"><b>' + (ok ? esc(b.name) : '？？？') + '</b><span class="st">' + stars(b.r) + '</span>' +
-        (ok ? '<small>' + d.n + '匹・最大 ' + Number(d.best).toFixed(1) + 'kg</small><small class="lk">好物：' + b.like.map(function (k) { return BAITBY[k].name; }).join('・') + '</small>'
+        (ok ? '<small>' + d.n + '匹・最大 ' + Number(d.best).toFixed(1) + 'kg</small><small class="lk">好物：' + b.like.map(function (k) { return BAITBY[k].name; }).join((window.NKI18N && NKI18N.lang && NKI18N.lang !== 'ja') ? ' · ' : '・') + '</small>'
           : '<small>' + esc(spotHint(b)) + '</small>') + '</div>';
     }).join('');
     $('medal-list').innerHTML = MEDALS.map(function (m) {
