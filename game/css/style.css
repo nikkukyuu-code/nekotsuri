@@ -144,7 +144,9 @@ img.gold { filter: drop-shadow(0 0 6px #ffd24a) brightness(1.1); }
 .res-cats { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; min-height: 40px; }
 .res-cats img { height: 44px; }
 .res-unlock { color: #9fe3ff; font-weight: 900; font-size: .9rem; }
-.howto h2 { margin: 0; text-align: center; } .howto ol { margin: 0; padding-left: 1.3em; font-size: .86rem; line-height: 1.55; } .howto li { margin-bottom: 4px; }
+.howto h2 { margin: 0; text-align: center; } .howto ol { margin: 0; padding-left: 1.3em; font-size: calc(.86rem * var(--hs, 1)); line-height: calc(1.25 + .3 * var(--hs, 1)); } .howto li { margin-bottom: calc(4px * var(--hs, 1)); }
+.howto .small { font-size: calc(.8rem * var(--hs, 1)); } .howto h2 { font-size: calc(1.5rem * var(--hs, 1)); }
+#scr-title .nk-lang-wrap { z-index: 15; }
 .medal-pop { position: absolute; left: 50%; top: 10px; z-index: 40; transform: translate(-50%, calc(-100% - 20px)); visibility: hidden; display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 14px;
   background: linear-gradient(180deg, #fff2c4, #f2b54b); color: #3a1f0c; box-shadow: 0 8px 22px rgba(0,0,0,.45); transition: transform .4s; width: max-content; max-width: 92%; }
 .medal-pop.show { transform: translate(-50%, 0); visibility: visible; }

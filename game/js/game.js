@@ -38,6 +38,12 @@
     if (id === 'scr-title') { refreshTitle(); if (window.__nkCheckUpdate) setTimeout(window.__nkCheckUpdate, 800); }
     if (id === 'scr-play') setTimeout(resize, 0);
   }
+  // shrink the how-to text until the whole card fits without inner scrolling (long translations / small phones)
+  function fitHowto() {
+    var c = document.querySelector('#ov-howto .card'); if (!c) return;
+    var k = 1; c.style.setProperty('--hs', '1');
+    while (k > 0.62 && c.scrollHeight > c.clientHeight + 1) { k -= 0.04; c.style.setProperty('--hs', k.toFixed(2)); }
+  }
   function overlay(id, on) { $(id).classList.toggle('show', !!on); }
 
   /* ---------- title ---------- */
@@ -813,7 +819,8 @@
     $('stage-next').addEventListener('click', function () { selStage = Math.min(SV.get().stageMax, selStage + 1); refreshTitle(); });
     $('btn-dex').addEventListener('click', function () { renderDex(); show('scr-dex'); });
     $('btn-shop').addEventListener('click', function () { renderShop(); show('scr-shop'); });
-    $('btn-howto').addEventListener('click', function () { overlay('ov-howto', true); });
+    $('btn-howto').addEventListener('click', function () { overlay('ov-howto', true); fitHowto(); setTimeout(fitHowto, 60); setTimeout(fitHowto, 300); });
+    window.addEventListener('resize', function () { if ($('ov-howto').classList.contains('show')) fitHowto(); });
     $('howto-close').addEventListener('click', function () { overlay('ov-howto', false); });
     document.querySelectorAll('[data-back]').forEach(function (b) { b.addEventListener('click', function () { show('scr-title'); }); });
     document.querySelectorAll('.tab').forEach(function (t) {

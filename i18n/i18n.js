@@ -138,15 +138,18 @@
     }
     return s;
   }
+  // Japanese middle dot (・) used as a list separator -> neutral separator
+  function dot(s) { return /^zh/.test(lang) ? s.replace(/\u30fb/g, '\u00b7') : s.replace(/\s*\u30fb\s*/g, ' \u00b7 '); }
   function tr(s) {
     if (lang === 'ja' || s == null) return s;
     s = String(s);
-    if (!JP.test(s)) return s;
+    if (!JP.test(s)) return s.indexOf('\u30fb') >= 0 ? dot(s) : s;
     var c = cache.get(s); if (c !== undefined) return c;
     var lead = /^\s*/.exec(s)[0], trail = /\s*$/.exec(s)[0];
     var body = s.slice(lead.length, s.length - trail.length);
     var lines = body.split('\n');
     var out = lead + lines.map(function (ln) { if (!JP.test(ln)) return ln; var a = /^\s*/.exec(ln)[0], b = /\s*$/.exec(ln)[0]; return a + core(ln.slice(a.length, ln.length - b.length)) + b; }).join('\n') + trail;
+    if (out.indexOf('\u30fb') >= 0) out = dot(out);
     if (JP.test(out)) NK.miss.add(s);
     if (cache.size > 5000) cache.clear();
     cache.set(s, out);
