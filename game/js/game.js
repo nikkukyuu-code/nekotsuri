@@ -341,6 +341,7 @@
     if (!G || G.ended) return;
     G.ended = true; setState('done'); G.doneT = 9999;
     var s = SV.get(), clear = G.caught >= G.info.target, bonus = 0;
+    try { if (window.__nkVisitBattleEnd) window.__nkVisitBattleEnd(clear ? 'win' : 'lose'); } catch (_) {}
     s.stageBest[G.stage] = Math.max(s.stageBest[G.stage] || 0, G.caught);
     if (clear) {
       bonus = G.info.bonus + Math.max(0, G.caught - G.info.target) * 30;
